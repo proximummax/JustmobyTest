@@ -1,3 +1,4 @@
+using Game.Scripts.Box;
 using Game.Scripts.Notifications;
 using Game.Scripts.ScriptableObjects;
 using Game.Scripts.Utils;

@@ -15,7 +15,7 @@ namespace Game.Scripts.Storage
             Color = color;
             Position = position;
         }
-        
+
         public Color Color;
         public Vector3 Position;
     }
@@ -41,14 +41,16 @@ namespace Game.Scripts.Storage
         private void LoadGame()
         {
             _filePath = Application.persistentDataPath;
-
             LoadBoxes();
         }
 
-        public void SaveGame()
+        public void SaveGame(bool deleteOldSave)
         {
             string savePath = _filePath + SlashSymbol + SaveFileName;
-            File.Delete(savePath);
+            if (deleteOldSave)
+            {
+                File.Delete(savePath);
+            }
 
             XDocument xDoc;
 

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using Game.Scripts.Box;
 using Game.Scripts.Notifications;
 using Game.Scripts.ScriptableObjects;
 using Game.Scripts.Utils;
@@ -13,7 +14,7 @@ namespace Game.Scripts.DropZone
         private readonly float _fallDownDuration;
         private readonly float _hideDuration;
 
-        private Vector3 _topOfScreen;
+        private readonly Vector3 _topOfScreen = Vector3.zero;
         public List<BoxView> Tower { get; private set; } = new();
 
         private TowerZoneService(GameConfig gameConfig, NotificationService notificationService)
@@ -22,8 +23,10 @@ namespace Game.Scripts.DropZone
             _fallDownDuration = gameConfig.FallDownDuration;
             _hideDuration = gameConfig.HideDuration;
 
-            _topOfScreen = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
-            Debug.Log(_topOfScreen);
+            if (Camera.main != null)
+            {
+                _topOfScreen = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
+            }
         }
 
         public void PlaceBoxInTower(BoxView box, Vector3 position, bool permanent)
@@ -119,9 +122,9 @@ namespace Game.Scripts.DropZone
                 if (hit && hit.collider.gameObject.TryGetComponent(out BoxView underBox) &&
                     CanBoxMoveDown(boxToPlace, underBox))
                 {
-                    float posY = underBox.EndMovementPoint == Vector3.zero
+                    float posY = underBox.PositionInTower == Vector3.zero
                         ? hit.transform.localPosition.y + underBox.RectTransform.rect.height
-                        : underBox.EndMovementPoint.y + underBox.RectTransform.rect.height;
+                        : underBox.PositionInTower.y + underBox.RectTransform.rect.height;
 
                     Vector3 positionToMove = new Vector3(boxToPlace.transform.localPosition.x, posY,
                         boxToPlace.transform.localPosition.z);

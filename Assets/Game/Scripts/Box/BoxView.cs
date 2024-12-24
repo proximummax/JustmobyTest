@@ -4,11 +4,10 @@ using UniRx.Triggers;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using VContainer;
 
-namespace Game.Scripts
+namespace Game.Scripts.Box
 {
     public class BoxView : MonoBehaviour
     {
@@ -25,7 +24,6 @@ namespace Game.Scripts
         public BoxCollider2D BoxCollider { get; private set; }
         public EBoxPlacementPoint PlacementPoint { get; set; }
         public RectTransform RectTransform { get; private set; }
-        public Vector3 EndMovementPoint { get; private set; } = Vector3.zero;
         public Vector3 PositionInTower { get; private set; } = Vector3.zero;
         public Color Color
         {
@@ -61,8 +59,7 @@ namespace Game.Scripts
 
         public void SaveMoveEndPoint(Vector3 point)
         {
-            EndMovementPoint = point;
-            PositionInTower = EndMovementPoint;
+            PositionInTower = point;
         }
         
         public void SmoothDestroy(float duration)

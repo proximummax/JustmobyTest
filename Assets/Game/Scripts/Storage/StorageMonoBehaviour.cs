@@ -14,7 +14,7 @@ namespace Game.Scripts.Storage
         }
         private void OnApplicationQuit()
         {
-            _storageBoxesService.SaveGame();
+            _storageBoxesService.SaveGame(true);
         }
     }
 }
